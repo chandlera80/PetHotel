@@ -13,8 +13,7 @@ public class PetHotel
         PetHotel petHotel = new PetHotel();
         printMenu();
         petHotel.run();
-        final int MIN_ROOM_NUMBER = 100;
-        final int MAX_ROOM_NUMBER = 120;
+
     }
 
     private void run()
@@ -35,36 +34,43 @@ public class PetHotel
             int roomNumber;
             int fromRoomNumber;
             int toRoomNumber;
-            final int MIN_ROOM_NUMBER = 100;
-            final int MAX_ROOM_NUMBER = 120;
+
 
             switch (command)
             {
 
                 case "CHECKIN":
+                case "C":
                     String petName = words[1];
-                    roomNumber = Integer.parseInt(words[2]);
-                    checkIn(roomNumber, petName);
+                    toRoomNumber = Integer.parseInt(words[2]);
+                    checkIn(toRoomNumber, petName);
                     break;
-
-                case "CHECK OUT":
-
-
+                case "CHECKOUT":
+                case "CH":
+                    roomNumber = Integer.parseInt(words[1]);
+                    printcheckOut(roomNumber);
                     break;
                 case "MOVE":
+                case  "M":
                     fromRoomNumber = Integer.parseInt(words[1]);
                     toRoomNumber = Integer.parseInt(words[2]);
                     move(fromRoomNumber, toRoomNumber);
-
                     break;
                 case "OCCUPANCY":
+                case    "O":
                     printOccupancy();
-
                     break;
-
                 case "ROOMS":
+                case "R":
+                    printRooms();
+                    break;
+                case "CLOSEFORSEASON":
 
-
+                    rooms.clear();
+                    break;
+                case "EXIT":
+                    System.out.println("Thanks for staying! Hope to see you and your pet again!");
+                    (hotelOpen) = false;
                     break;
 
 
@@ -72,10 +78,7 @@ public class PetHotel
                     System.err.println("Invalid option selected");
             }
 
-
         } while (hotelOpen);
-
-
     }
 
     private static void printMenu()
@@ -90,10 +93,15 @@ public class PetHotel
         System.out.println("Exit");
     }
 
+    private void printcheckOut(int roomNumber)
+    {
+        rooms.remove(roomNumber);
+        System.out.println("Guest checked out of room" + roomNumber);
+    }
     private void checkIn(int roomNumber, String name)
     {
         rooms.put(roomNumber, name);
-        System.out.println(name + "checked into room" + roomNumber);
+        System.out.println(name + " checked into room " + roomNumber);
     }
 
     private void move(int fromRoomNumber, int toRoomNumber)
@@ -106,7 +114,7 @@ public class PetHotel
             {
                 String petName = rooms.remove(fromRoomNumber);
                 rooms.put(toRoomNumber, petName);
-                System.out.println("moved " + petName + "from room" + fromRoomNumber + "to room" + toRoomNumber);
+                System.out.println("moved " + petName + " from room " + fromRoomNumber + " to room " + toRoomNumber);
             } else
             {
                 String petInDestinationRoom = rooms.get(toRoomNumber);
@@ -124,7 +132,7 @@ public class PetHotel
         {
             int roomNumber = entry.getKey();
             String petName = entry.getValue();
-            System.out.println(" Room Number: +" + roomNumber + "Pet Name: " + petName);
+            System.out.println(" Room Number: " + roomNumber + " Pet Name: " + petName);
 
         }
     }
@@ -146,7 +154,6 @@ public class PetHotel
                 else
                 {
                     System.out.println("Empty");
-
                 }
                 System.out.println();
             }
